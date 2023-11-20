@@ -5,8 +5,6 @@ import {LoanService} from "../../services/loan.service";
 import jsPDF from "jspdf";
 import autoTable from 'jspdf-autotable'
 import {Fee} from "../payment-plan/payment-plan.component";
-import {CarsService} from "../../services/cars.service";
-import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-history',
