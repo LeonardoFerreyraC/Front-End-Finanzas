@@ -6,7 +6,7 @@ import {catchError, Observable, retry, throwError} from "rxjs";
   providedIn: 'root'
 })
 export class LoanService {
-  basePath: string = 'http://localhost:3000/api/v1';
+  basePath: string = 'https://credit-car.zeabur.app/api/v1';
   constructor(private http: HttpClient) { }
 
   handleError(error: HttpErrorResponse) {
@@ -31,7 +31,7 @@ export class LoanService {
       .pipe(retry(2), catchError(this.handleError));
   }
   getLoansByUserId(userId : any): Observable<any>{
-    return this.http.get(`${this.basePath}/loans?userId=${userId}`)
+    return this.http.get(`${this.basePath}/users/${userId}/loans`)
       .pipe(retry(2), catchError(this.handleError));
   }
 

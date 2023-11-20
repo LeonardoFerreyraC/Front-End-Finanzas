@@ -6,7 +6,7 @@ import {catchError, retry, throwError} from "rxjs";
   providedIn: 'root'
 })
 export class CarsService {
-  basePath: string = 'http://localhost:3000/api/v1';
+  basePath: string = 'https://credit-car.zeabur.app/api/v1';
   constructor(private http: HttpClient) { }
   handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
