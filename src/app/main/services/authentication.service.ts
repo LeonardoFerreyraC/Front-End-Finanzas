@@ -35,6 +35,9 @@ export class AuthenticationService {
   //Sign-In
   signIn(email: string){
     return this.http.get(`${this.basePath}/users?email=${email}`)
-      .pipe(retry(2), catchError(this.handleError));
+      .pipe(retry(2), catchError(error =>{
+        this.handleError(error);
+        return throwError(error);
+      }));
   }
 }

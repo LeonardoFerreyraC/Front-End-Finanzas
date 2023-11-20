@@ -30,20 +30,18 @@ export class SignUpComponent {
 
   signUp(){
     if(!this.name.errors && !this.lastName.errors && !this.email.errors && !this.password.errors)
-      this.authService.signIn(this.email.value).subscribe((newResponse: any)=>{
-        let user = newResponse;
-        console.log(user)
-        if(user && user.length>0){
+      this.authService.signIn(this.email.value).subscribe(
+        data => {
           this.showError = true;
-        }
-        else{
-          this.authService.signUp(this.signUpForm.value).subscribe(() =>{
-            this.signUpForm.reset();
-            this.goToSignIn();
-          });
-        }
-      })
-
+        },
+        error => {
+          if (error.status === 400) {
+            this.authService.signUp(this.signUpForm.value).subscribe(() =>{
+              this.signUpForm.reset();
+              this.goToSignIn();
+            });
+          }
+        });
   }
   goToSignIn(){
     this.router.navigate(['/signIn']);
