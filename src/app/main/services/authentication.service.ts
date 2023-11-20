@@ -34,6 +34,7 @@ export class AuthenticationService {
   }
   //Sign-In
   signIn(email: string){
+    console.log(`${this.basePath}/users?email=${email}`)
     return this.http.get(`${this.basePath}/users?email=${email}`)
       .pipe(retry(2), catchError(this.handleError));
   }
