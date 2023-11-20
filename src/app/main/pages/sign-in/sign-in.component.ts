@@ -37,11 +37,9 @@ export class SignInComponent {
   signIn(){
     if(!this.email.errors && !this.password.errors){
       this.authService.signIn(this.email.value).subscribe((response: any) =>{
-        console.log(response)
         let user = response
-        if(user && user.length > 0){
-          user = user[0]
-          this.success = user['password'] == this.password.value
+        if(user){
+          this.success = user.password == this.password.value
           this.existingUser = user
         }
         this.showError = !this.success
