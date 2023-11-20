@@ -3,7 +3,6 @@ import {Router} from "@angular/router";
 import {EntryService} from "../../services/entry.service";
 import {LoanService} from "../../services/loan.service";
 import {MatDialog} from "@angular/material/dialog";
-import {CarDialogComponent} from "../simulator/simulator.component";
 import {ToastrService} from "ngx-toastr";
 
 export interface Fee {
@@ -240,7 +239,7 @@ export class PaymentPlanComponent implements OnInit{
       if(this.loanDetails.state != "RENOVADO"){
         this.loanDetails.state = "PAGANDO"
       }
-      this.loanService.putLoanById(this.loanDetails.id, this.loanDetails).subscribe((response) =>{
+      this.loanService.putLoanById(this.loanDetails.id, this.loanDetails).subscribe(() =>{
         if(this.loanDetails.state != "RENOVADO"){
           this.entryService.setLoanDetails(this.loanDetails)
         }
@@ -259,7 +258,7 @@ export class PaymentPlanComponent implements OnInit{
         if(loan.state!="RENOVADO"){
           loan.state = "PAGANDO"
         }
-        this.loanService.putLoanById(loan.id, loan).subscribe((response) =>{
+        this.loanService.putLoanById(loan.id, loan).subscribe(() =>{
           if(loan.state!="RENOVADO"){
             this.entryService.setLoanDetails(loan)
           }
@@ -285,13 +284,13 @@ export class PaymentPlanComponent implements OnInit{
 
   changeStatusToPending(){
     this.loanDetails.state = "PENDIENTE"
-    this.loanService.putLoanById(this.loanDetails.id, this.loanDetails).subscribe((response) =>{
+    this.loanService.putLoanById(this.loanDetails.id, this.loanDetails).subscribe(() =>{
       this.entryService.setLoanDetails(this.loanDetails)
     })
   }
 
   showDialog(){
-    const dialogRef = this.dialog.open(ActionDialogComponent);
+    this.dialog.open(ActionDialogComponent);
   }
 }
 
@@ -347,13 +346,13 @@ export class ActionDialogComponent implements OnInit{
       else{
         this.loan.finalFee = this.loan.finalFee - this.actualPrice
         this.changeStateToReturned()
-        this.loanService.putLoanById(this.loan.id, this.loan).subscribe((response) =>{
+        this.loanService.putLoanById(this.loan.id, this.loan).subscribe(() =>{
           this.router.navigate(['/home/simulator'])
         })
       }
     }
     else{
-      this.loanService.putLoanById(this.loan.id, this.loan).subscribe((response) =>{
+      this.loanService.putLoanById(this.loan.id, this.loan).subscribe(() =>{
         this.actualPrice = this.actualPrice - this.loan.finalFee
         this.entryService.setActualPrice(this.actualPrice)
         this.router.navigate(['/home/simulator'])
@@ -363,7 +362,7 @@ export class ActionDialogComponent implements OnInit{
 
     goToHistory(){
     this.loan.finalFee = this.loan.finalFee - this.actualPrice
-    this.loanService.putLoanById(this.loan.id, this.loan).subscribe((response) =>{
+    this.loanService.putLoanById(this.loan.id, this.loan).subscribe(() =>{
       this.router.navigate(['/home/history'])
     })
   }

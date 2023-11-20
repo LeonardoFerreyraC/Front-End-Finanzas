@@ -37,7 +37,7 @@ export class SignUpComponent {
           this.showError = true;
         }
         else{
-          this.authService.signUp(this.signUpForm.value).subscribe((response: any) =>{
+          this.authService.signUp(this.signUpForm.value).subscribe(() =>{
             this.signUpForm.reset();
             this.goToSignIn();
           });

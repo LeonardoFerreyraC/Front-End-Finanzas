@@ -30,12 +30,6 @@ export class LoanService {
     return this.http.post(`${this.basePath}/loans`, loan)
       .pipe(retry(2), catchError(this.handleError));
   }
-
-  getLoanById(id : any): Observable<any>{
-    return this.http.get(`${this.basePath}/loans/${id}`)
-      .pipe(retry(2), catchError(this.handleError));
-  }
-
   getLoansByUserId(userId : any): Observable<any>{
     return this.http.get(`${this.basePath}/loans?userId=${userId}`)
       .pipe(retry(2), catchError(this.handleError));

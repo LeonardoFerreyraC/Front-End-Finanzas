@@ -357,14 +357,14 @@ export class SimulatorComponent implements OnInit{
           state: this.state?this.state:""
         }
         if(this.actualPrice){
-          this.loanService.putLoanById(this.loanToRenew.id, loanDetails).subscribe((response)=>{
+          this.loanService.putLoanById(this.loanToRenew.id, loanDetails).subscribe(()=>{
             this.entryService.setLoanDetails(loanDetails)
             this.toastService.success("Plan de pago creado")
             this.router.navigate(['/plan'])
           })
         }
         else{
-          this.loanService.postLoan(loanDetails).subscribe((response)=>{
+          this.loanService.postLoan(loanDetails).subscribe(()=>{
             this.entryService.setLoanDetails(loanDetails)
             this.toastService.success("Plan de pago creado")
             this.router.navigate(['/plan'])

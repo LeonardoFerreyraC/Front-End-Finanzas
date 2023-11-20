@@ -28,9 +28,4 @@ export class CarsService {
     return this.http.get(`${this.basePath}/cars`)
       .pipe(retry(2), catchError(this.handleError));
   }
-
-  getCarById(id: number){
-    return this.http.get(`${this.basePath}/cars?id=${id}`)
-      .pipe(retry(2), catchError(this.handleError));
-  }
 }

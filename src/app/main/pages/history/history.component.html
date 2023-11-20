@@ -24,7 +24,7 @@
 
     <ng-container matColumnDef="number">
       <th mat-header-cell *matHeaderCellDef> N° </th>
-      <td mat-cell style="width: 20px" *matCellDef="let loan; let i = index"> {{i+1}} </td>
+      <td mat-cell style="width: 20px" *matCellDef="let i = index"> {{i+1}} </td>
     </ng-container>
 
     <ng-container matColumnDef="state">
@@ -71,11 +71,11 @@
       <th mat-header-cell *matHeaderCellDef> ACCIONES </th>
       <td mat-cell style="width: 20px;" *matCellDef="let loan; let i = index">
         <div style="display: flex; gap: 5px; width: 50%">
-          <button style="background-color: none; color: white; min-width: 50%; border-radius: 20px; padding: 0"
+          <button style="background-color: transparent; color: white; min-width: 50%; border-radius: 20px; padding: 0"
                   mat-button (click)="view(loan)">
             <mat-icon>remove_red_eye</mat-icon>
           </button>
-          <button style="background-color: none; color: white; min-width: 50%; border-radius: 20px; padding: 0"
+          <button style="background-color: transparent; color: white; min-width: 50%; border-radius: 20px; padding: 0"
                   mat-button (click)="print(loan, i+1)">
             <mat-icon>picture_as_pdf</mat-icon>
           </button>
