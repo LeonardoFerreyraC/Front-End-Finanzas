@@ -1,0 +1,22 @@
+<div style="background-color: white; max-width: 50vw">
+  <h2 mat-dialog-title style="color:black">Elige el auto</h2>
+  <mat-dialog-content style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; max-width: 80vw; overflow-y: auto">
+    <mat-card *ngFor="let car of cars" [style.backgroundColor]="car === carSelected ? 'lightblue' : 'white'" style="width: 30%; max-height: 50%;" (click)="getCar(car)" >
+      <mat-card-header>
+        <mat-card-title style="color:black">{{car.name}}</mat-card-title>
+        <mat-card-subtitle style="color:#808080">{{car.year}} {{car.color}}</mat-card-subtitle>
+      </mat-card-header>
+      <div style="display: flex; justify-content: center;">
+        <img mat-card-image src="{{car.imageURL}}" alt="Photo of the car" width=85% height=120px>
+      </div>
+      <mat-card-content style="color:black; font-size: 25px; text-align: center">
+        S/. {{car.price | number:'1.2-2'}}
+      </mat-card-content>
+    </mat-card>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button style="color:white; background-color: navy" mat-dialog-close>Cancelar</button>
+    <button mat-button style="color:white; background-color: navy" [mat-dialog-close]="carSelected">Seleccionar</button>
+  </mat-dialog-actions>
+</div>
+

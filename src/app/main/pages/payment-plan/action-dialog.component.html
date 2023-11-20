@@ -1,0 +1,54 @@
+<div *ngIf="loan.state == 'PENDIENTE'" style="background-color: white; color: black; height: 25vh">
+  <mat-dialog-actions align="end" style="height: 10%; padding: 0px; min-height: 0">
+    <button mat-button style="color:black; background-color: none; justify-content: end" mat-dialog-close>X</button>
+  </mat-dialog-actions>
+  <h2 mat-dialog-title style="color:black; text-align: center;">¿Cómo desea proceder?</h2>
+  <mat-dialog-actions>
+    <button mat-button style="color:white; background-color: navy" (click)="changeStateToRenew()">Renovar</button>
+    <button mat-button style="color:white; background-color: #008011" (click)="changeStateToReturned()">Devolver</button>
+    <button mat-button style="color:white; background-color: #800024" mat-dialog-close (click)="changeStateToStay()">Quedarse</button>
+  </mat-dialog-actions>
+</div>
+<div *ngIf="loan.state == 'RENOVADO'" style="background-color: white; color: black; height: 55vh">
+  <mat-dialog-actions align="end" style="height: 10%; padding: 0px; min-height: 0">
+    <button mat-button style="color:black; background-color: none; justify-content: end" mat-dialog-close>X</button>
+  </mat-dialog-actions>
+  <h2 mat-dialog-title style="color:black; text-align: center;">¿Cómo desea proceder?</h2>
+  <mat-dialog-actions style="display: flex; justify-content: center">
+    <button mat-button style="color:white; background-color: #008011" (click)="changeStateToPending()">Regresar</button>
+  </mat-dialog-actions>
+  <h3 mat-dialog-content style="color:black; text-align: center;">
+    Ingrese la tasación o el precio actual del vehículo
+  </h3>
+  <div style="display: flex; justify-content: center">
+    <mat-form-field class="email-form" style="width: 30%">
+      <input matInput [(ngModel)]="actualPrice" (ngModelChange)="changingSure()">
+    </mat-form-field>
+  </div>
+  <mat-dialog-actions *ngIf="!sure" style="display: flex; justify-content: center">
+    <button mat-button style="color:white; background-color: navy" (click)="goToSimulator()">Continuar</button>
+  </mat-dialog-actions>
+  <mat-dialog-actions *ngIf="sure" style="display: flex; justify-content: center">
+    <button mat-button style="color:white; background-color: navy" mat-dialog-close (click)="goToSimulator()">Continuar</button>
+  </mat-dialog-actions>
+</div>
+<div *ngIf="loan.state == 'DEVUELTO'" style="background-color: white; color: black; height: 55vh">
+  <mat-dialog-actions align="end" style="height: 10%; padding: 0px; min-height: 0">
+    <button mat-button style="color:black; background-color: none; justify-content: end" mat-dialog-close>X</button>
+  </mat-dialog-actions>
+  <h2 mat-dialog-title style="color:black; text-align: center;">¿Cómo desea proceder?</h2>
+  <mat-dialog-actions style="display: flex; justify-content: center">
+    <button mat-button style="color:white; background-color: #008011" (click)="changeStateToPending()">Regresar</button>
+  </mat-dialog-actions>
+  <h3 mat-dialog-content style="color:black; text-align: center;">
+    Ingrese la tasación o el precio actual del vehículo
+  </h3>
+  <div style="display: flex; justify-content: center">
+    <mat-form-field class="email-form" style="width: 30%">
+      <input matInput [(ngModel)]="actualPrice">
+    </mat-form-field>
+  </div>
+  <mat-dialog-actions style="display: flex; justify-content: center">
+    <button mat-button style="color:white; background-color: navy" mat-dialog-close (click)="goToHistory()">Continuar</button>
+  </mat-dialog-actions>
+</div>

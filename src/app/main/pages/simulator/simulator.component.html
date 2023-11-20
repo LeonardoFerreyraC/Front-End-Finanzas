@@ -1,0 +1,335 @@
+<mat-toolbar style="background-color: #2828281F">
+  <div style="display: flex; justify-content: center; width: 85%; color: black">
+    SIMULADOR DE CRÉDITO VEHICULAR
+  </div>
+  <div>
+    <button mat-button [matMenuTriggerFor]="menu" style="background-color: black; border-radius: 15px">
+      <mat-icon>person</mat-icon>
+      {{client}}
+      <mat-icon iconPositionEnd>keyboard_arrow_down</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="goToSignIn()">
+        <mat-icon>subdirectory_arrow_left</mat-icon>
+        <span>Cerrar Sesión</span>
+      </button>
+    </mat-menu>
+  </div>
+</mat-toolbar>
+<div style="display: flex; font-family: Roboto,serif;">
+  <mat-card style="width: 50%; margin: 5px; padding: 5px;
+  background-color: white; border: 2px solid black;">
+    <p style="font-size: 20px;">Cliente</p>
+    <mat-form-field class="email-form" style="width: 50%">
+      <input matInput [(ngModel)]="client" disabled>
+    </mat-form-field>
+    <p style="font-size: 20px;">Elige la moneda</p>
+    <div style="padding-bottom: 16px">
+      <mat-chip-listbox aria-label="Currency selection">
+        <mat-chip-option #chipSoles [ngStyle]="{'background-color': chipSoles.selected ? '#00008066' : '#2828281F'}"
+                         style="border-radius: 5px; padding: 5px" (click)="setCurrencyToSoles()" selected
+                         [selectable]="currencySelected !== 'Soles'">
+          <span style="color: black; font-size: 24px;">
+            Soles
+          </span>
+        </mat-chip-option>
+        <mat-chip-option #chipDolares [ngStyle]="{'background-color': chipDolares.selected ? '#00008066' : '#2828281F'}"
+                         style="border-radius: 5px; padding: 5px" (click)="setCurrencyToDollars()"
+                         [selectable]="currencySelected !== 'Dolares'">
+        <span style="color: black; font-size: 24px;">
+          Dólares
+        </span>
+        </mat-chip-option>
+      </mat-chip-listbox>
+    </div>
+  </mat-card>
+  <mat-card style="width: 50%; margin: 5px; padding: 5px;
+  background-color: white; border: 2px solid black;">
+    <p style="font-size: 25px; text-align: center">COSTO DE OPORTUNIDAD</p>
+    <p style="font-size: 20px;">Tasa de descuento anual</p>
+    <mat-form-field class="email-form" style="width: 30%">
+      <input matInput [(ngModel)]="COKrate" (blur)="onBlur('COKrate')">
+    </mat-form-field>
+  </mat-card>
+</div>
+<div style="display: flex; font-family: Roboto,serif;">
+  <mat-card style="width: 50%; margin: 5px; padding: 5px;
+  background-color: white; border: 2px solid black;">
+    <p style="font-size: 25px; text-align: center">DATOS DEL PRÉSTAMO</p>
+    <div style="display: flex;">
+      <div style="width: 50%">
+        <p *ngIf="actualPrice">Valor guardado: {{actualPrice}}</p>
+        <p style="font-size: 20px;">Precio de venta del vehículo</p>
+        <mat-form-field class="email-form" style="width: 75%" (click)="showDialaog()">
+          <input [style.color]="actualPrice && price!=0 ? 'red' : 'black'" [style.textDecoration]="actualPrice && price!=0? 'line-through' : 'none'"
+                 matInput [value]="formattedPrice" readonly>
+        </mat-form-field>
+        <p *ngIf="actualPrice">Nuevo Precio: {{formattedNewPrice}}</p>
+        <p style="font-size: 20px;">Cuota inicial (%)</p>
+        <div style="padding-bottom: 16px">
+          <mat-chip-listbox aria-label="Currency selection">
+            <mat-chip-option #chip20 [ngStyle]="{'background-color': chip20.selected ? '#00008066' : '#2828281F'}"
+                             style="border-radius: 5px; padding: 5px" (click)="setInitialFreePercentTo20()" selected
+                             [selectable]="initialFeePercent !== '20'">
+              <span style="color: black; font-size: 24px;">
+                20%
+              </span>
+            </mat-chip-option>
+            <mat-chip-option #chip30 [ngStyle]="{'background-color': chip30.selected ? '#00008066' : '#2828281F'}"
+                             style="border-radius: 5px; padding: 5px" (click)="setInitialFreePercentTo30()"
+                             [selectable]="initialFeePercent !== '30'">
+              <span style="color: black; font-size: 24px;">
+                30%
+              </span>
+            </mat-chip-option>
+          </mat-chip-listbox>
+        </div>
+        <p style="font-size: 20px;">Cuota final (%)</p>
+        <div style="padding-bottom: 16px">
+          <mat-chip-listbox aria-label="Currency selection">
+            <mat-chip-option #chip40 [ngStyle]="{'background-color': chip40.selected ? '#00008066' : '#2828281F'}"
+                             style="border-radius: 5px; padding: 5px" (click)="setFinalFreePercentTo40()" selected
+                             [selectable]="finalFeePercent !== '40'">
+              <span style="color: black; font-size: 24px;">
+                40%
+              </span>
+            </mat-chip-option>
+            <mat-chip-option #chip50 [ngStyle]="{'background-color': chip50.selected ? '#00008066' : '#2828281F'}"
+                             style="border-radius: 5px; padding: 5px" (click)="setFinalFreePercentTo50()"
+                             [selectable]="finalFeePercent !== '50'">
+              <span style="color: black; font-size: 24px;">
+                50%
+              </span>
+            </mat-chip-option>
+          </mat-chip-listbox>
+        </div>
+        <p style="font-size: 20px;">Tasa de interés anual</p>
+        <mat-form-field class="email-form" style="width: 75%">
+          <input matInput [(ngModel)]="interestAnualRate" (blur)="onBlur('interestAnualRate')">
+        </mat-form-field>
+        <p style="font-size: 20px;">Periodo de capitalización</p>
+        <mat-form-field class="select-form" style="width: 75%">
+          <mat-select [(ngModel)]="capitalizationPeriod" disableRipple>
+            <mat-option value="1">Diaria</mat-option>
+            <mat-option value="30">Mensual</mat-option>
+            <mat-option value="180">Semestral</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <p style="font-size: 20px;">Plazo de gracia</p>
+        <mat-form-field class="select-form" style="width: 75%">
+          <mat-select [(ngModel)]="gracePeriod" disableRipple>
+            <mat-option value="S">Sin plazo</mat-option>
+            <mat-option value="P">Parcial</mat-option>
+            <mat-option value="T">Total</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div style="width: 50%;">
+        <p style="font-size: 20px;">Elige el plazo</p>
+        <div style="padding-bottom: 16px">
+          <mat-chip-listbox aria-label="Currency selection">
+            <mat-chip-option #chip24 [ngStyle]="{'background-color': chip24.selected ? '#00008066' : '#2828281F'}"
+                             style="border-radius: 5px; padding: 5px" (click)="setPlanTo24()" selected
+                             [selectable]="plan !== '24'">
+              <span style="color: black; font-size: 24px;">
+                Plan 24
+              </span>
+            </mat-chip-option>
+            <mat-chip-option #chip36 [ngStyle]="{'background-color': chip36.selected ? '#00008066' : '#2828281F'}"
+                             style="border-radius: 5px; padding: 5px" (click)="setPlanTo36()"
+                             [selectable]="plan !== '36'">
+              <span style="color: black; font-size: 24px;">
+                Plan 36
+              </span>
+            </mat-chip-option>
+          </mat-chip-listbox>
+        </div>
+        <p style="font-size: 20px;">Cuota inicial</p>
+        <mat-form-field class="email-form" style="width: 75%">
+          <input matInput [value]="formattedInitialFee" disabled>
+        </mat-form-field>
+        <p style="font-size: 20px;">Cuota final</p>
+        <mat-form-field class="email-form" style="width: 75%">
+          <input matInput [value]="formattedFinalFee" disabled>
+        </mat-form-field>
+        <p style="font-size: 20px;">Elige el tipo de tasa de interés</p>
+        <div style="padding-bottom: 16px">
+          <mat-chip-listbox aria-label="Currency selection">
+            <mat-chip-option #chipNominal
+                             [ngStyle]="{'background-color': chipNominal.selected ? '#00008066' : '#2828281F'}"
+                             style="border-radius: 5px; padding: 5px" (click)="setInterestToNominal()" selected
+                             [selectable]="interestTypeSelected !== 'Nominal'">
+              <span style="color: black; font-size: 20px;">
+                Nominal
+              </span>
+            </mat-chip-option>
+            <mat-chip-option #chipEfectiva
+                             [ngStyle]="{'background-color': chipEfectiva.selected ? '#00008066' : '#2828281F'}"
+                             style="border-radius: 5px; padding: 5px" (click)="setInterestToEfectiva()"
+                             [selectable]="interestTypeSelected !== 'Efectiva'">
+              <span style="color: black; font-size: 20px;">
+                Efectiva
+              </span>
+            </mat-chip-option>
+          </mat-chip-listbox>
+        </div>
+        <div style="display: flex;">
+          <div style="width: 50%;">
+            <p style="font-size: 20px;">N° de dias al año</p>
+            <mat-form-field class="email-form" style="width: 50%">
+              <input matInput [value]="360" disabled>
+            </mat-form-field>
+          </div>
+          <div style="width: 50%;">
+            <p style="font-size: 20px;">Frecuencia de pago (días)</p>
+            <mat-form-field class="email-form" style="width: 50%">
+              <input matInput [value]="30" disabled>
+            </mat-form-field>
+          </div>
+        </div>
+        <p *ngIf="gracePeriod != 'S'" style="font-size: 20px;">Meses de gracia</p>
+        <mat-form-field *ngIf="gracePeriod != 'S'" class="email-form" style="width: 75%">
+          <input matInput [(ngModel)]="graceMonths">
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-card>
+  <mat-card style="width: 50%; margin: 5px; padding: 5px;
+  background-color: white; border: 2px solid black;">
+    <p style="font-size: 25px; text-align: center">GASTOS INICIALES</p>
+    <div>
+      <mat-form-field class="select-form" style="width: 100%">
+        <mat-label style="color: black">Elige una entidad financiera</mat-label>
+        <mat-select [(ngModel)]="financialEntity" (selectionChange)="onFinancialEntityChange($event.value)" disableRipple>
+          <mat-option value="Scotiabank">Scotiabank</mat-option>
+          <mat-option value="SmartBuy">SmartBuy</mat-option>
+          <mat-option value="CreditBank">CreditBank</mat-option>
+          <mat-option value="BancaRapida">BancaRapida</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div style="display: flex;">
+      <div style="width: 50%">
+        <p style="font-size: 20px;">Costos notariales</p>
+        <mat-form-field class="email-form" style="width: 75%">
+          <input matInput [(ngModel)]="notarialCost" disabled>
+        </mat-form-field>
+        <p style="font-size: 20px;">Costos registrales</p>
+        <mat-form-field class="email-form" style="width: 75%">
+          <input matInput [(ngModel)]="registrationCosts" disabled>
+        </mat-form-field>
+        <p style="font-size: 20px;">Comisión de activación</p>
+        <mat-form-field class="email-form" style="width: 75%">
+          <input matInput [(ngModel)]="activationFee" disabled>
+        </mat-form-field>
+      </div>
+      <div style="width: 50%;">
+        <p style="font-size: 20px;">Tasación</p>
+        <mat-form-field class="email-form" style="width: 75%">
+          <input matInput [(ngModel)]="appraisal" disabled>
+        </mat-form-field>
+        <p style="font-size: 20px;">Comisión de estudio</p>
+        <mat-form-field class="email-form" style="width: 75%">
+          <input matInput [(ngModel)]="studyCommission" disabled>
+        </mat-form-field>
+      </div>
+    </div>
+    <p style="font-size: 25px; text-align: center">GASTOS PERIÓDICOS</p>
+    <div style="display: flex;">
+      <div style="width: 50%">
+        <p style="font-size: 20px;">Comisión periódica</p>
+        <mat-form-field class="email-form" style="width: 75%">
+          <input matInput [(ngModel)]="periodicComission" disabled>
+        </mat-form-field>
+        <p style="font-size: 20px;">Portes</p>
+        <mat-form-field class="email-form" style="width: 75%" disabled="">
+          <input matInput [(ngModel)]="portage" disabled>
+        </mat-form-field>
+      </div>
+      <div style="width: 50%;">
+        <p style="font-size: 20px;">Gastos de administración</p>
+        <mat-form-field class="email-form" style="width: 75%">
+          <input matInput [(ngModel)]="administrationExpenses" disabled>
+        </mat-form-field>
+        <p style="font-size: 20px;">Seguro de desgravamen (%)</p>
+        <mat-form-field class="email-form" style="width: 75%">
+          <input matInput [ngModel]="creditLifeInsurance | percent:'1.2-2'" disabled>
+        </mat-form-field>
+      </div>
+    </div>
+    <p style="font-size: 20px; text-align: center">Seguro vehicular (%)</p>
+    <div style="display: flex; gap: 70px">
+      <mat-form-field class="select-form" style="width: 37.5%">
+        <mat-select [(ngModel)]="vehicleInsurancePeriod" disableRipple disabled>
+          <mat-option value="1">Mensual</mat-option>
+          <mat-option value="6">Semestral</mat-option>
+          <mat-option value="12">Anual</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="email-form" style="width: 37.5%">
+        <input matInput [ngModel]="vehicleInsurance | percent:'1.2-2'" disabled>
+      </mat-form-field>
+    </div>
+  </mat-card>
+</div>
+<div style="padding: 5px;">
+  <mat-toolbar style="background-color: #000080; border-radius: 15px;">
+    <div style="display: flex; justify-content: center; width: 100%; color: white">
+      RESULTADOS
+    </div>
+  </mat-toolbar>
+  <div style="display: flex; padding: 10px">
+    <div style="width: 33%">
+      <p style="font-size: 20px;">TEA</p>
+      <mat-form-field class="email-form" style="width: 40%">
+        <input matInput [value]="TEA | percent:'1.2-2'" disabled>
+      </mat-form-field>
+      <p style="font-size: 20px;">TEM</p>
+      <mat-form-field class="email-form" style="width: 40%">
+        <input matInput [value]="TEM | percent:'1.2-2'" disabled>
+      </mat-form-field>
+      <p style="font-size: 20px;">Cuota Inicial</p>
+      <mat-form-field class="email-form" style="width: 40%">
+        <input matInput [value]="formattedInitialFee" disabled>
+      </mat-form-field>
+      <p style="font-size: 20px;">Cuota Final</p>
+      <mat-form-field class="email-form" style="width: 40%">
+        <input matInput [value]="formattedFinalFee" disabled>
+      </mat-form-field>
+    </div>
+    <div style="width: 33%;">
+      <p style="font-size: 20px;">N° de cuotas al año</p>
+      <mat-form-field class="email-form" style="width: 40%">
+        <input matInput [value]="numberFeesYear" disabled>
+      </mat-form-field>
+      <p style="font-size: 20px;">N° total de cuotas</p>
+      <mat-form-field class="email-form" style="width: 40%">
+        <input matInput [value]="numberFeesTotal" disabled>
+      </mat-form-field>
+      <p style="font-size: 20px;">Seguro vehicular</p>
+      <mat-form-field class="email-form" style="width: 40%">
+        <input matInput [value]="vehicleInsurance" disabled>
+      </mat-form-field>
+      <p style="font-size: 20px;">Seguro de desgravamen</p>
+      <mat-form-field class="email-form" style="width: 40%">
+        <input matInput [value]="creditLifeInsurance" disabled>
+      </mat-form-field>
+    </div>
+    <div style="width: 33%;">
+      <p style="font-size: 20px;">Monto del préstamo</p>
+      <mat-form-field class="email-form" style="width: 40%">
+        <input matInput [value]="formattedLoanAmount" disabled>
+      </mat-form-field>
+      <p style="font-size: 20px;">Saldo a financiar en cuotas</p>
+      <mat-form-field class="email-form" style="width: 40%">
+        <input matInput [value]="formattedBalanceFinance" disabled>
+      </mat-form-field>
+    </div>
+  </div>
+  <div style="width: 100%; display: flex; justify-content: center; height: 75px;">
+    <button mat-button style="border-radius: 10px; width: 30%; background-color: navy; font-size: 24px; height: 100%"
+    (click)="goToPlan()">
+      Generar plan de pago
+    </button>
+  </div>
+</div>

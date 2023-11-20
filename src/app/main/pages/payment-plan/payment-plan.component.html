@@ -1,0 +1,116 @@
+<div style="padding: 20px">
+  <div *ngIf="loanDetails.state!=''" style="display: flex; justify-content: center; padding-bottom: 10px; margin-bottom: 15px">
+    <button *ngIf="loanDetails.state == 'PAGANDO'" mat-button style="background-color: navy; color: white; font-size: 25px; height: 50px; width: 25%"
+            (click)="changeStatusToPending()">
+      Finalizar Pagos
+    </button>
+    <button *ngIf="loanDetails.state == 'PENDIENTE'" mat-button style="background-color: navy; color: white; font-size: 25px; height: 50px; width: 25%"
+            (click)="showDialog()">
+      Finalizar Flujo
+    </button>
+  </div>
+  <mat-card style="background-color: white; color: black; padding-top: 10px">
+    <p style="text-align: center; font-size: 24px">RESULTADOS DE INDICADORES DE RENTABILIDAD</p>
+    <div style="display: flex; justify-content: center; gap: 10px">
+      <p style="text-align: center; font-size: 24px">VAN: </p>
+      <p style="text-align: center; font-size: 24px">{{VAN | number:'1.2-2'}}</p>
+    </div>
+    <div style="display: flex; justify-content: center; gap: 10px">
+      <p style="text-align: center; font-size: 24px">TIR: </p>
+      <p style="text-align: center; font-size: 24px">{{TIR | percent:'1.5-5'}}</p>
+    </div>
+    <div style="display: flex; justify-content: center; gap: 10px">
+      <p style="text-align: center; font-size: 24px">TCEA: </p>
+      <p style="text-align: center; font-size: 24px">{{TCEA | percent:'1.5-5'}}</p>
+    </div>
+  </mat-card>
+</div>
+<div style="padding: 20px">
+  <table mat-table [dataSource]="dataSource">
+
+    <ng-container matColumnDef="number">
+      <th mat-header-cell *matHeaderCellDef> N° </th>
+      <td mat-cell style="width: 20px" *matCellDef="let fee"> {{fee.number}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="TEA">
+      <th mat-header-cell *matHeaderCellDef> TEA </th>
+      <td mat-cell style="width: 20px" *matCellDef="let fee"> {{fee.TEA | percent:'1.6-6'}} </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="TEP">
+      <th mat-header-cell *matHeaderCellDef> TEP </th>
+      <td mat-cell style="width: 20px" *matCellDef="let fee"> {{fee.TEP | percent:'1.2-6'}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="gracePeriod">
+      <th mat-header-cell *matHeaderCellDef> PG </th>
+      <td mat-cell style="width: 20px" *matCellDef="let fee"> {{fee.gracePeriod}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="initialBalance">
+      <th mat-header-cell *matHeaderCellDef> Saldo Inicial </th>
+      <td mat-cell style="width: 20px" *matCellDef="let fee"> {{fee.initialBalance | number: '1.2-2'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="interests">
+      <th mat-header-cell *matHeaderCellDef> Interés </th>
+      <td mat-cell style="width: 20px" *matCellDef="let fee"> {{fee.interests | number: '1.2-2' }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="fee">
+      <th mat-header-cell *matHeaderCellDef> Cuota </th>
+      <td mat-cell style="width: 20px" *matCellDef="let fee"> {{fee.fee | number: '1.2-2'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="amortization">
+      <th mat-header-cell *matHeaderCellDef> Amortización </th>
+      <td mat-cell style="width: 20px" *matCellDef="let fee"> {{fee.amortization | number: '1.2-2'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="creditLifeInsurance">
+      <th mat-header-cell *matHeaderCellDef> Seg. de desgrav </th>
+      <td mat-cell style="width: 20px" *matCellDef="let fee"> {{fee.creditLifeInsurance | number: '1.2-2'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="vehicleInsurance">
+      <th mat-header-cell *matHeaderCellDef> Seg. vehicular </th>
+      <td mat-cell style="width: 20px" *matCellDef="let fee"> {{fee.vehicleInsurance | number: '1.2-2'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="commission">
+      <th mat-header-cell *matHeaderCellDef> Comisión </th>
+      <td mat-cell style="width: 20px" *matCellDef="let fee"> {{fee.commission | number: '1.2-2'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="portage">
+      <th mat-header-cell *matHeaderCellDef> Portes </th>
+      <td mat-cell style="width: 20px" *matCellDef="let fee"> {{fee.portage | number: '1.2-2' }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="administrativeExpenses">
+      <th mat-header-cell *matHeaderCellDef> Gastos admin </th>
+      <td mat-cell style="width: 20px" *matCellDef="let fee"> {{fee.administrativeExpenses | number: '1.2-2'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="finalBalance">
+      <th mat-header-cell *matHeaderCellDef> Saldo final </th>
+      <td mat-cell style="width: 20px" *matCellDef="let fee"> {{fee.finalBalance | number: '1.2-2'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="flow">
+      <th mat-header-cell *matHeaderCellDef> Flujo </th>
+      <td mat-cell style="width: 20px" *matCellDef="let fee"> {{fee.flow | number: '1.2-2'}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
+<div style="display: flex; justify-content: center; padding-bottom: 10px">
+  <button mat-button style="background-color: navy; color: white; font-size: 25px; height: 50px; width: 25%" (click)="goToSimulator()">Continuar</button>
+</div>
+

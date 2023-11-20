@@ -1,0 +1,25 @@
+<mat-sidenav-container style="background-color: white; height: 250vh">
+  <mat-sidenav style="background-color: #0000801F; width: 25%; display:flex;
+  text-align: center; align-items: start;" mode="side" opened>
+    <div style="height: 100%; width: 100%;">
+      <div style="color: #000080; font-family: Sans,serif; font-size: 30px; font-weight: bold; padding-top: 50px">
+        CreditCar
+      </div>
+      <br>
+      <button [ngStyle]="{'background-color': isSimulatorSelected ? 'navy' : 'white', 'color': isSimulatorSelected ? 'white' : 'black'}"
+              style="border-radius: 10px; width: 95%;" mat-button (click)="goToSimulator()">
+        Simulador
+        <mat-icon>table_chart</mat-icon>
+      </button>
+      <br>
+      <button [ngStyle]="{'background-color': isHistorySelected ? 'navy' : 'white', 'color': isHistorySelected ? 'white' : 'black'}"
+              style="border-radius: 10px; width: 95%;" mat-button (click)="goToHistory()">
+        Historial
+        <mat-icon>dvr</mat-icon>
+      </button>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content style="color: black" >
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

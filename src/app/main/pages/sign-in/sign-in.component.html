@@ -1,0 +1,68 @@
+<div style="overflow: hidden; height: 100vh;">
+  <mat-toolbar color="accent">
+    <div style="flex: auto; text-align: end;">
+      <button *ngIf="value != 'Sign-Up'" style="border-radius: 15px; background: #0000802B; color: navy;" mat-button (click)="goToSignUp()">Registrarse</button>
+      <button *ngIf="value == 'Sign-In'" style="border-radius: 15px; background-color: navy; color: white;" mat-button>Ingresar</button>
+    </div>
+  </mat-toolbar>
+  <mat-grid-list cols="2" rowHeight="650px">
+    <mat-grid-tile style="background: #00008033;">
+      <div style="flex: auto; text-align: center;">
+        <div style="color: #000080; font-family: Sans,serif; font-size: 64px; font-weight: bold">
+          CreditCar
+        </div>
+        <img src="https://i.ibb.co/zxfy0zG/car.png" alt="Car's image">
+        <div style="color: #000080; font-family: Sans,serif; font-size: 30px;">
+          Estás a un click de hacerlo posible.
+        </div>
+        <br>
+        <div style="color: #000080; font-family: Sans,serif; font-size: 30px; font-weight: bold">
+          ¡Tu auto, más fácil de lo que imaginas!
+        </div>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile style="background: #FFFFF8;">
+      <form [formGroup]="signInForm">
+        <div style="flex: auto; text-align: center;  max-width: 420px; height: 40vh">
+          <div style="font-family: Sans,serif; font-size: 25px;">
+            Bienvenido
+          </div>
+          <br>
+          <div style="color: #000080; font-family: Sans,serif; font-size: 15px; text-align: start">
+            <p>Correo Electrónico</p>
+          </div>
+          <mat-form-field class="email-form" style="width: 100%">
+            <input matInput placeholder="hola@ejemplo.com" formControlName="email" required>
+            <mat-icon style="color: #C4C4C4" matSuffix>mail_outline</mat-icon>
+            <mat-error *ngIf="email.errors?.['email']">
+              Debes ingresar un email válido.
+            </mat-error>
+            <mat-error *ngIf="email.errors?.['required']">
+              El email es requerido.
+            </mat-error>
+          </mat-form-field>
+          <div style="color: #000080; font-family: Sans,serif; font-size: 15px; text-align: start">
+            <p>Contraseña</p>
+          </div>
+          <mat-form-field class="password-form" style="width: 100%; color: #C4C4C48F">
+            <input type="password" matInput placeholder="**************" formControlName="password" required>
+            <mat-icon style="color: #C4C4C4" matSuffix>lock</mat-icon>
+            <mat-error *ngIf="password.errors?.['required']">
+              La contraseña es requerida.
+            </mat-error>
+          </mat-form-field>
+          <br>
+          <button style="border-radius: 20px; background-color: navy; color: white; width: 120px" mat-button (click)="signIn()">
+            Ingresar
+            <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+          </button>
+          <br><br>
+          <div *ngIf="showError" style="color: red; width: 100%">
+            <p style="font-size: 12px">El correo o la contraseña son incorrectos</p>
+          </div>
+        </div>
+      </form>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
+

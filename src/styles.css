@@ -1,1 +1,49 @@
-/* You can add global styles to this file, and also import other style files */
+@import "@angular/material/prebuilt-themes/pink-bluegrey.css";/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html .email-form {
+  --mdc-filled-text-field-container-color: #FFFFFF;
+  --mdc-filled-text-field-input-text-placeholder-color: #C4C4C4;
+  --mdc-filled-text-field-input-text-color: black;
+  --mdc-filled-text-field-disabled-container-color: #d3d3d3;
+  --mdc-filled-text-field-disabled-input-text-color: black;
+}
+
+html .email-form .mdc-text-field{
+  border: 1.5px solid #C4C4C4;
+  border-radius: 10px;
+}
+
+html .email-form[matInput]:read-only {
+  --mdc-filled-text-field-container-color: navy;
+}
+
+html .password-form{
+  --mdc-filled-text-field-container-color: #C4C4C44D;
+  --mdc-filled-text-field-input-text-placeholder-color: #C4C4C48F;
+  --mdc-filled-text-field-input-text-color: black;
+}
+
+html .select-form{
+  --mat-select-enabled-arrow-color: navy;
+  --mat-select-enabled-trigger-text-color: black;
+  --mdc-filled-text-field-container-color: #FFFFFF;
+  --mdc-filled-text-field-disabled-container-color: #d3d3d3;
+  --mat-select-disabled-trigger-text-color: black;
+}
+
+html .select-form .mdc-text-field{
+  border: 1.5px solid #C4C4C4;
+  border-radius: 10px;
+}
+
+html .mat-mdc-form-field-infix{
+  width: auto;
+}
+
+html {
+  --mat-select-panel-background-color: #FFFFFF;
+  --mat-option-label-text-color: black;
+}

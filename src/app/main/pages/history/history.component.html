@@ -1,0 +1,89 @@
+<mat-toolbar style="background-color: #2828281F">
+  <div style="display: flex; justify-content: center; width: 85%; color: black">
+    CONSULTAS SOBRE CRÉDITO VEHICULAR
+  </div>
+  <div>
+    <button mat-button [matMenuTriggerFor]="menu" style="background-color: black; border-radius: 15px">
+      <mat-icon>person</mat-icon>
+      {{client}}
+      <mat-icon iconPositionEnd>keyboard_arrow_down</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="goToSignIn()">
+        <mat-icon>subdirectory_arrow_left</mat-icon>
+        <span>Cerrar Sesión</span>
+      </button>
+    </mat-menu>
+  </div>
+</mat-toolbar>
+<div *ngIf="loans.length === 0" style="display: flex; justify-content: center; color: black; align-items: center; height: 30%">
+  <p style="font-size: 50px">No hay planes de pago</p>
+</div>
+<div *ngIf="loans.length > 0">
+  <table mat-table [dataSource]="loans">
+
+    <ng-container matColumnDef="number">
+      <th mat-header-cell *matHeaderCellDef> N° </th>
+      <td mat-cell style="width: 20px" *matCellDef="let loan; let i = index"> {{i+1}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="state">
+      <th mat-header-cell *matHeaderCellDef> ESTADO </th>
+      <td mat-cell style="width: 40px" *matCellDef="let loan"> {{loan.state}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef> FECHA </th>
+      <td mat-cell style="width: 40px" *matCellDef="let loan"> {{loan.date}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="VAN">
+      <th mat-header-cell *matHeaderCellDef> VAN </th>
+      <td mat-cell style="width: 20px" *matCellDef="let loan"> {{loan.VAN | number:'1.2-2'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="TIR">
+      <th mat-header-cell *matHeaderCellDef> TIR </th>
+      <td mat-cell style="width: 20px" *matCellDef="let loan"> {{loan.TIR | percent:'1.2-2'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="COK">
+      <th mat-header-cell *matHeaderCellDef> COK </th>
+      <td mat-cell style="width: 20px" *matCellDef="let loan"> {{loan.cokRate | percent:'1.2-2'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="loan">
+      <th mat-header-cell *matHeaderCellDef> PRÉSTAMO </th>
+      <td mat-cell style="width: 20px" *matCellDef="let loan"> {{loan.loanAmount}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="interest">
+      <th mat-header-cell *matHeaderCellDef> TEA </th>
+      <td mat-cell style="width: 20px" *matCellDef="let loan"> {{loan.TEA | percent:'1.2-2'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="totalFees">
+      <th mat-header-cell *matHeaderCellDef> PLAZO </th>
+      <td mat-cell style="width: 20px" *matCellDef="let loan"> {{loan.totalFees}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> ACCIONES </th>
+      <td mat-cell style="width: 20px;" *matCellDef="let loan; let i = index">
+        <div style="display: flex; gap: 5px; width: 50%">
+          <button style="background-color: none; color: white; min-width: 50%; border-radius: 20px; padding: 0"
+                  mat-button (click)="view(loan)">
+            <mat-icon>remove_red_eye</mat-icon>
+          </button>
+          <button style="background-color: none; color: white; min-width: 50%; border-radius: 20px; padding: 0"
+                  mat-button (click)="print(loan, i+1)">
+            <mat-icon>picture_as_pdf</mat-icon>
+          </button>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
